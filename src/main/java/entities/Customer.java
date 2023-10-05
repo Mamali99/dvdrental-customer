@@ -17,7 +17,7 @@ public class Customer {
     private Integer customer_id;
 
     private Integer store_id;
-    private String firs_name;
+    private String first_name;
     private String last_name;
     private String email;
     private Boolean activebool;

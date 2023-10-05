@@ -1,18 +1,24 @@
 package resources;
 
 import entities.Customer;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import services.CustomerServices;
+
+import java.util.List;
 
 @Path("/customers")
 public class CustomerResource {
+    @Inject
+    CustomerServices customerServices;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomers(@QueryParam("page") int page) {
-        // Implementierung
-
-        return null;
+        List<Customer> customers = customerServices.getFirst10Customers();
+        return Response.ok(customers).build();
     }
 
     @POST

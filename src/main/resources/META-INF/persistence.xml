@@ -10,7 +10,12 @@
         <!-- Verwenden Sie die Datasource, die Sie in Wildfly erstellt haben -->
         <jta-data-source>java:jboss/datasources/PostgresDS</jta-data-source>
 
-        <class>de.ostfalia.entity.Country</class>
+
+        <class>entities.Customer</class>
+        <class>entities.Country</class>
+        <class>entities.Address</class>
+        <class>entities.City</class>
+        <class>entities.Payment</class>
 
         <properties>
             <!-- Hibernate-spezifische Eigenschaften, falls benötigt -->
