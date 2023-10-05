@@ -1,17 +1,25 @@
 package resources;
 
 import entities.Address;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import services.AddressServices;
+
+import java.util.List;
 
 @Path("/addresses")
 public class AddressResource {
+
+    @Inject
+    AddressServices addressServices;
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAddresses(@QueryParam("page") int page) {
-        // Implementierung
-        return null;
+        List<Address> addresses = addressServices.getFirst10Addresses();
+
+        return Response.ok(addresses).build();
     }
 
     @POST
