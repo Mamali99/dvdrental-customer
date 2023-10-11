@@ -12,6 +12,6 @@ public class RootResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getRoot() {
         // Implementierung
-        return null;
+        return Response.ok("Root of Customer. Returns array of primary resources").build();
     }
 }
