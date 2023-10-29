@@ -50,7 +50,6 @@ public class AddressServices {
     @Transactional
     public AddressDTO createAddress(AddressDTO addressDTO) {
         Address address = new Address();
-        address.setAddress_id(addressDTO.getId());
         address.setAddress(addressDTO.getAddress());
         address.setAddress2(addressDTO.getAddress2());
         address.setDistrict(addressDTO.getDistrict());
@@ -69,34 +68,35 @@ public class AddressServices {
         return addressDTO;
     }
 
-    private AddressDTO convertToAddressDTO(Address address) {
-        AddressDTO newAddressDTO = new AddressDTO();
-        newAddressDTO.setId(address.getAddress_id());
-        newAddressDTO.setAddress(address.getAddress());
-        newAddressDTO.setAddress2(address.getAddress2());
-        newAddressDTO.setDistrict(address.getDistrict());
-        newAddressDTO.setPhone(address.getPhone());
-        newAddressDTO.setPostalCode(address.getPostal_code());
-        if(address.getCity() != null) {
-            newAddressDTO.setCity(address.getCity().getCity());
-            if(address.getCity().getCountry() != null) {
-                newAddressDTO.setCountry(address.getCity().getCountry().getCountry());
-            }
-        }
-        return newAddressDTO;
-    }
 
-    private City findCity(String cityName, String countryName) {
-        TypedQuery<City> cityQuery = entityManager.createQuery("SELECT c FROM City c WHERE c.city = :cityName AND c.country.country = :countryName", City.class);
-        cityQuery.setParameter("cityName", cityName);
-        cityQuery.setParameter("countryName", countryName);
-        City city;
-        try {
-            city = cityQuery.getSingleResult();
-        } catch (NoResultException e) {
-            throw new IllegalStateException("City or Country does not exist");
+    public City findCity(String cityName, String countryName) {
+        // Suche zuerst das Land
+        TypedQuery<Country> countryQuery = entityManager.createQuery(
+                "SELECT c FROM Country c WHERE c.country = :countryName", Country.class);
+        countryQuery.setParameter("countryName", countryName);
+
+        Country foundCountry = countryQuery.getSingleResult();
+        if (foundCountry == null) {
+            return null;  // Land wurde nicht gefunden
         }
-        return city;
+
+        // Suche dann die Stadt, die diesem Land zugeordnet ist
+        TypedQuery<City> cityQuery = entityManager.createQuery(
+                "SELECT ci FROM City ci WHERE ci.city = :cityName AND ci.country = :foundCountry", City.class);
+        cityQuery.setParameter("cityName", cityName);
+        cityQuery.setParameter("foundCountry", foundCountry);
+
+        City foundCity = cityQuery.getSingleResult();
+        if (foundCity == null) {
+            return null;  // Stadt wurde nicht gefunden oder gehört nicht zu diesem Land
+        }
+
+        // Überprüfe, ob die Stadt das erwartete Land als Land hat
+        if (foundCity.getCountry().getCountry_id().equals(foundCountry.getCountry_id())) {
+            return foundCity;  // Stadt wurde gefunden und gehört zu dem erwarteten Land
+        } else {
+            return null;  // Stadt gehört nicht zu dem erwarteten Land
+        }
     }
 
 
