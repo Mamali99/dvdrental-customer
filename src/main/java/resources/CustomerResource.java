@@ -43,8 +43,8 @@ public class CustomerResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomerById(@PathParam("id") int id) {
-        // Implementierung
-        return null;
+        CustomerDTO customerDTO = customerServices.getCustomerById(id);
+        return Response.ok(customerDTO).build();
     }
 
     @GET

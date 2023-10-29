@@ -102,4 +102,37 @@ public class CustomerServices {
         TypedQuery<Long> query = entityManager.createQuery("SELECT COUNT(c) FROM Customer c", Long.class);
         return query.getSingleResult().intValue();
     }
+
+    public CustomerDTO getCustomerById(int id) {
+        // Finde den Kunden in der Datenbank über die ID
+        Customer customer = entityManager.find(Customer.class, id);
+
+        // Wenn kein Kunde gefunden wurde, gib null zurück
+        if (customer == null) {
+            return null;
+        }
+
+        // Wandele das Customer-Entity in ein CustomerDTO um
+        CustomerDTO dto = new CustomerDTO();
+
+        dto.setId(customer.getCustomer_id());
+        dto.setActive(customer.getActive());
+        dto.setActivebool(customer.getActivebool());
+        dto.setCreateDate(customer.getCreate_date());
+        dto.setEmail(customer.getEmail());
+        dto.setFirstName(customer.getFirst_name());
+        dto.setLastName(customer.getLast_name());
+
+        // Setze die HREFs für den Store und die Adresse
+        StoreHref storeHref = new StoreHref();
+        storeHref.setHref("path_to_store/" + customer.getStore_id());
+        dto.setStore(storeHref);
+
+        AddressHref addressHref = new AddressHref();
+        addressHref.setHref("path_to_address/" + customer.getAddress().getAddress_id());
+        dto.setAddress(addressHref);
+
+        return dto;
+    }
+
 }
