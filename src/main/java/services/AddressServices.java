@@ -100,6 +100,8 @@ public class AddressServices {
     }
 
 
-
-
+    public Integer getCount() {
+        TypedQuery<Long> query = entityManager.createQuery("SELECT COUNT(a) FROM Address a", Long.class);
+        return query.getSingleResult().intValue();
+    }
 }

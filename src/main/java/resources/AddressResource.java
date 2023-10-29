@@ -35,8 +35,8 @@ public class AddressResource {
     @Path("/count")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAddressCount() {
-        // Implementierung
-        return null;
+        Integer count = addressServices.getCount();
+        return Response.ok(count).build();
     }
 
     @GET
