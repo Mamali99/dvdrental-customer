@@ -25,9 +25,9 @@ public class CustomerResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createCustomer(Customer customer, @QueryParam("address") int addressId, @QueryParam("store") int storeId) {
-        // Implementierung
-        return null;
+    public Response createCustomer(CustomerDTO customerDTO) {
+        CustomerDTO c = customerServices.createCustomer(customerDTO);
+        return Response.ok(c).build();
     }
 
     @GET

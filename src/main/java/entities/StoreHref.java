@@ -8,4 +8,12 @@ import lombok.Setter;
 public class StoreHref {
 
     private String href;
+
+    public StoreHref() {
+
+    }
+    public StoreHref(String s) {
+        this.href = s;
+    }
+
 }

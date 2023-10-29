@@ -9,4 +9,9 @@ public class AddressHref {
 
     private String href;
 
+    public AddressHref(){}
+
+    public AddressHref(String s) {
+        this.href = s;
+    }
 }

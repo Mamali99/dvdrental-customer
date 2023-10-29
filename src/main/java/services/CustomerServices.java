@@ -1,9 +1,6 @@
 package services;
 
-import entities.AddressHref;
-import entities.Customer;
-import entities.CustomerDTO;
-import entities.StoreHref;
+import entities.*;
 import jakarta.ejb.Stateless;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
@@ -52,5 +49,52 @@ public class CustomerServices {
         }
 
         return customerDTOs;
+    }
+
+    public CustomerDTO createCustomer(CustomerDTO customerDTO) {
+        Customer customer = new Customer();
+
+        // Set basic properties
+        customer.setActive(customerDTO.getActive());
+        customer.setActivebool(customerDTO.getActivebool());
+        customer.setCreate_date(customerDTO.getCreateDate());
+        customer.setEmail(customerDTO.getEmail());
+        customer.setFirst_name(customerDTO.getFirstName());
+        customer.setLast_name(customerDTO.getLastName());
+
+        // Assuming hrefs are something like /store/1 and /address/5
+        // Extracting IDs from hrefs
+        String storeHref = customerDTO.getStore().getHref();
+        String[] storeHrefParts = storeHref.split("/");
+        if (storeHrefParts.length > 0) {
+            customer.setStore_id(Integer.parseInt(storeHrefParts[storeHrefParts.length - 1]));
+        }
+
+        // Do similar for address. We'll assume Address has an ID field.
+        String addressHref = customerDTO.getAddress().getHref();
+        String[] addressHrefParts = addressHref.split("/");
+        if (addressHrefParts.length > 0) {
+            Integer addressId = Integer.parseInt(addressHrefParts[addressHrefParts.length - 1]);
+            Address address = entityManager.find(Address.class, addressId);
+            customer.setAddress(address);
+        }
+        // Persist customer entity
+        entityManager.persist(customer);
+
+        // Convert persisted Customer to CustomerDTO
+        CustomerDTO persistedCustomerDTO = new CustomerDTO();
+        persistedCustomerDTO.setId(customer.getCustomer_id());
+        persistedCustomerDTO.setActive(customer.getActive());
+        persistedCustomerDTO.setActivebool(customer.getActivebool());
+        persistedCustomerDTO.setCreateDate(customer.getCreate_date());
+        persistedCustomerDTO.setEmail(customer.getEmail());
+        persistedCustomerDTO.setFirstName(customer.getFirst_name());
+        persistedCustomerDTO.setLastName(customer.getLast_name());
+        persistedCustomerDTO.setStore(new StoreHref("path_to_store/" + customer.getStore_id()));
+        persistedCustomerDTO.setAddress(new AddressHref("path_to_address/" + customer.getAddress().getAddress_id()));
+
+        return persistedCustomerDTO;
+
+
     }
 }
