@@ -20,7 +20,7 @@ public class Payment {
     @Column(name = "payment_id")
     private Integer paymentId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 

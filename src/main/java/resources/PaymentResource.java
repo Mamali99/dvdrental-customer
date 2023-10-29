@@ -2,6 +2,7 @@ package resources;
 
 import entities.Payment;
 import entities.PaymentDTO;
+import entities.PaymentValue;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -18,8 +19,9 @@ public class PaymentResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createPayment(Payment payment) {
-       return null;
+    public Response createPayment(PaymentValue payment) {
+       Payment p = paymentServices.createPayment(payment);
+        return Response.ok(p).build();
     }
 
     @GET

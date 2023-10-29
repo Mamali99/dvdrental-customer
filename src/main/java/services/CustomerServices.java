@@ -16,6 +16,10 @@ public class CustomerServices {
     @PersistenceContext
     private EntityManager entityManager;
 
+    public EntityManager getEntityManager(){
+        return entityManager;
+    }
+
     public List<CustomerDTO> getFirst20Customers() {
         TypedQuery<Customer> query = entityManager.createQuery("SELECT c FROM Customer c", Customer.class);
         query.setMaxResults(20);
