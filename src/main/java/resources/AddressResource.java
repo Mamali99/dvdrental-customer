@@ -25,9 +25,10 @@ public class AddressResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response createAddress(Address address) {
-        // Implementierung
-        return null;
+    public Response createAddress(AddressDTO address) {
+
+        AddressDTO addressDTO = addressServices.createAddress(address);
+        return Response.ok(addressDTO).build();
     }
 
     @GET
