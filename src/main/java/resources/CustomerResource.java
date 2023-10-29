@@ -1,6 +1,7 @@
 package resources;
 
 import entities.Customer;
+import entities.CustomerDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -17,7 +18,7 @@ public class CustomerResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomers(@QueryParam("page") int page) {
-        List<Customer> customers = customerServices.getFirst10Customers();
+        List<CustomerDTO> customers = customerServices.getFirst20Customers();
         return Response.ok(customers).build();
     }
 
