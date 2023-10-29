@@ -1,6 +1,7 @@
 package resources;
 
 import entities.Payment;
+import entities.PaymentDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -25,8 +26,8 @@ public class PaymentResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPaymentById(@PathParam("id") int id) {
-        List<Payment> payments = paymentServices.getFirst10Payments();
-        return Response.ok(payments).build();
+        PaymentDTO payment = paymentServices.getPaymentById(id);
+        return Response.ok(payment).build();
     }
 
     @DELETE

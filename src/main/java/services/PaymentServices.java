@@ -1,6 +1,6 @@
 package services;
 
-import entities.Payment;
+import entities.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -12,10 +12,23 @@ public class PaymentServices {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<Payment> getFirst10Payments() {
-        TypedQuery<Payment> query = entityManager.createQuery("SELECT p FROM Payment p", Payment.class);
-        query.setMaxResults(10);
-        return query.getResultList();
-    }
 
+    public PaymentDTO getPaymentById(int id) {
+        Payment payment = entityManager.find(Payment.class, id);
+
+        if(payment == null) {
+            return null; // oder werfen Sie eine Ausnahme, wenn keine Zahlung mit der gegebenen ID gefunden wird.
+        }
+
+        PaymentDTO paymentDTO = new PaymentDTO();
+        paymentDTO.setId(payment.getPaymentId());
+        paymentDTO.setAmount(payment.getAmount().doubleValue());
+
+        // Setzen Sie die Hrefs basierend auf Ihren Endpunkt-URLs
+        paymentDTO.setCustomer(new CustomerHref("path_to_customer/" + payment.getCustomer().getCustomer_id()));
+        paymentDTO.setStaff(new StaffHref("path_to_staff/" + payment.getStaffId()));
+        paymentDTO.setRental(new RentalHref("path_to_rental/" + payment.getRentalId()));
+
+        return paymentDTO;
+    }
 }
