@@ -43,8 +43,8 @@ public class AddressResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAddressById(@PathParam("id") int id) {
-        // Implementierung
-        return null;
+        AddressDTO addressDTO = addressServices.getAddressById(id);
+        return Response.ok(addressDTO).build();
     }
 
     @DELETE

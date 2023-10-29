@@ -104,4 +104,31 @@ public class AddressServices {
         TypedQuery<Long> query = entityManager.createQuery("SELECT COUNT(a) FROM Address a", Long.class);
         return query.getSingleResult().intValue();
     }
+
+    public AddressDTO getAddressById(int id) {
+        Address address = entityManager.find(Address.class, id);
+
+        if (address == null) {
+            return null;
+        }
+
+        AddressDTO dto = new AddressDTO();
+        dto.setId(address.getAddress_id());
+        dto.setAddress(address.getAddress());
+        dto.setAddress2(address.getAddress2());
+        dto.setDistrict(address.getDistrict());
+        dto.setPhone(address.getPhone());
+        dto.setPostalCode(address.getPostal_code());
+
+        // Set city and country from related entities
+        if(address.getCity() != null) {
+            dto.setCity(address.getCity().getCity());
+            if(address.getCity().getCountry() != null) {
+                dto.setCountry(address.getCity().getCountry().getCountry());
+            }
+        }
+
+        return dto;
+    }
+
 }
