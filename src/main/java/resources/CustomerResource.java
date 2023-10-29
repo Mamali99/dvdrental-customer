@@ -2,6 +2,7 @@ package resources;
 
 import entities.Customer;
 import entities.CustomerDTO;
+import entities.PaymentDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -51,7 +52,7 @@ public class CustomerResource {
     @Path("/{id}/payments")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPaymentsByCustomerId(@PathParam("id") int id) {
-        // Implementierung
-        return null;
+        List<PaymentDTO> paymentDTOS = customerServices.getPaymentsByCustomerId(id);
+        return Response.ok(paymentDTOS).build();
     }
 }

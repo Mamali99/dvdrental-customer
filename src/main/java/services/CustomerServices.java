@@ -135,4 +135,25 @@ public class CustomerServices {
         return dto;
     }
 
+    public List<PaymentDTO> getPaymentsByCustomerId(int id) {
+        TypedQuery<Payment> query = entityManager.createQuery("SELECT p FROM Payment p WHERE p.customer.customer_id = :customerId", Payment.class);
+        query.setParameter("customerId", id);
+        List<Payment> payments = query.getResultList();
+
+        List<PaymentDTO> paymentDTOs = new ArrayList<>();
+        for (Payment payment : payments) {
+            PaymentDTO paymentDTO = new PaymentDTO();
+            paymentDTO.setId(payment.getPaymentId());
+            paymentDTO.setAmount(payment.getAmount().doubleValue());
+
+            // Setzen Sie die Hrefs basierend auf Ihren Endpunkt-URLs
+            paymentDTO.setCustomer(new CustomerHref("path_to_customer/" + payment.getCustomer().getCustomer_id()));
+            paymentDTO.setStaff(new StaffHref("path_to_staff/" + payment.getStaffId()));
+            paymentDTO.setRental(new RentalHref("path_to_rental/" + payment.getRentalId()));
+
+            paymentDTOs.add(paymentDTO);
+        }
+
+        return paymentDTOs;
+    }
 }
