@@ -28,7 +28,7 @@ public class Address {
         @Column(nullable = false, length = 20)
         private String district;
 
-        @ManyToOne(fetch = FetchType.LAZY)
+        @ManyToOne(fetch = FetchType.EAGER)
         @JoinColumn(name = "city_id", nullable = false)
         @JsonbTransient
         private City city;

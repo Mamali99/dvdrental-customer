@@ -23,7 +23,7 @@ public class City {
     @Column(nullable = false, length = 50)
     private String city;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "country_id", nullable = false)
     @JsonbTransient
     private Country country;

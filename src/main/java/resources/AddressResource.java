@@ -1,6 +1,7 @@
 package resources;
 
 import entities.Address;
+import entities.AddressDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -17,8 +18,7 @@ public class AddressResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAddresses(@QueryParam("page") int page) {
-        List<Address> addresses = addressServices.getFirst10Addresses();
-
+        List<AddressDTO> addresses = addressServices.getFirst100Addresses();
         return Response.ok(addresses).build();
     }
 
