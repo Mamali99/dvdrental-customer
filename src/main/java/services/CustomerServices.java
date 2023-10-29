@@ -97,4 +97,9 @@ public class CustomerServices {
 
 
     }
+
+    public Integer getCount() {
+        TypedQuery<Long> query = entityManager.createQuery("SELECT COUNT(c) FROM Customer c", Long.class);
+        return query.getSingleResult().intValue();
+    }
 }

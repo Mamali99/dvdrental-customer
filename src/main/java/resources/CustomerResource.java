@@ -22,6 +22,7 @@ public class CustomerResource {
         return Response.ok(customers).build();
     }
 
+    //Hier muss noch von Store-Microservice kontrollieren, ob Store-id gibt
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -34,8 +35,8 @@ public class CustomerResource {
     @Path("/count")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomerCount() {
-        // Implementierung
-        return null;
+        Integer count = customerServices.getCount();
+        return Response.ok(count).build();
     }
 
     @GET
