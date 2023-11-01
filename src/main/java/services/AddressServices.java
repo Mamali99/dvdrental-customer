@@ -9,6 +9,7 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.core.Response;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,7 @@ public class AddressServices {
         }
         address.setCity(city);
 
-        entityManager.persist(address); // Persistiere die Address-Entity
+        entityManager.persist(address);
 
         return addressDTO;
     }
@@ -129,6 +130,37 @@ public class AddressServices {
         }
 
         return dto;
+    }
+
+    @Transactional
+    public Response deleteAddress(int id) {
+        Address address = entityManager.find(Address.class, id);
+        if (address == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Address not found.").build();
+        }
+
+        // Überprüfen, ob Kunden mit der Adresse assoziiert sind
+        TypedQuery<Long> query = entityManager.createQuery(
+                "SELECT COUNT(c) FROM Customer c WHERE c.address.address_id = :addressId", Long.class);
+        query.setParameter("addressId", id);
+        long associatedCustomersCount = query.getSingleResult();
+
+        if (associatedCustomersCount > 0) {
+            return Response.status(Response.Status.FORBIDDEN)
+                    .entity("Address can't be deleted. There are customers associated with this address.")
+                    .build();
+        }
+
+        // Entfernen der Address-Entität aus der Liste der Adressen in der City-Entität
+        City city = address.getCity();
+        city.getAddresses().remove(address);
+
+        // Löschen der Address-Entität
+        entityManager.remove(address);
+        entityManager.flush();
+        entityManager.clear();
+
+        return Response.status(Response.Status.NO_CONTENT).build();
     }
 
 }

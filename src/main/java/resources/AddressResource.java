@@ -50,8 +50,8 @@ public class AddressResource {
     @DELETE
     @Path("/{id}")
     public Response deleteAddress(@PathParam("id") int id) {
-        // Implementierung
-        return null;
+
+        return addressServices.deleteAddress(id);
     }
 }
 
