@@ -38,7 +38,7 @@ public class PaymentServices {
     }
 
     @Transactional
-    public Payment createPayment(PaymentValue paymentValue) {
+    public PaymentDTO createPayment(PaymentValue paymentValue) {
 
         // Erstellen Sie ein neues Payment Objekt und setzen Sie die Werte von PaymentValue
         Payment payment = new Payment();
@@ -48,9 +48,17 @@ public class PaymentServices {
         payment.setCustomer(customer);
         payment.setStaffId(paymentValue.getStaff());  // Annahme, dass die Methode setStaffId() in der Payment Klasse existiert
         payment.setPaymentDate(paymentValue.getDate());  // Annahme, dass die Methode setPaymentDate() in der Payment Klasse existiert
-
-        // Persistieren Sie das Payment Objekt in der Datenbank
-        entityManager.persist(payment);
-        return payment;
+        entityManager.merge(payment);
+        return convertToDTO(payment);
     }
+    public PaymentDTO convertToDTO(Payment payment) {
+        PaymentDTO paymentDTO = new PaymentDTO();
+        paymentDTO.setId(payment.getPaymentId());
+        paymentDTO.setAmount(payment.getAmount().doubleValue());
+        paymentDTO.setStaff(new StaffHref("/staff/" + payment.getStaffId()));
+        paymentDTO.setRental(new RentalHref("/rentals/" + payment.getRentalId()));
+        paymentDTO.setCustomer(new CustomerHref("/customers/" + payment.getCustomer().getCustomer_id()));
+        return paymentDTO;
+    }
+
 }

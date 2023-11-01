@@ -20,7 +20,7 @@ public class PaymentResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createPayment(PaymentValue payment) {
-       Payment p = paymentServices.createPayment(payment);
+       PaymentDTO p = paymentServices.createPayment(payment);
         return Response.ok(p).build();
     }
 
