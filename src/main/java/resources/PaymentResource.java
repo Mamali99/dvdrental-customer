@@ -32,10 +32,12 @@ public class PaymentResource {
         return Response.ok(payment).build();
     }
 
+
     @DELETE
     @Path("/{id}")
     public Response deletePayment(@PathParam("id") int id) {
-        // Implementierung
-        return null;
+
+        paymentServices.deletePayment(id);
+        return Response.noContent().build();
     }
 }

@@ -6,10 +6,12 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.core.Response;
 
 import java.util.List;
 
 public class PaymentServices {
+
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -17,11 +19,14 @@ public class PaymentServices {
     @Inject
     private CustomerServices customerServices;
 
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
 
     public PaymentDTO getPaymentById(int id) {
         Payment payment = entityManager.find(Payment.class, id);
 
-        if(payment == null) {
+        if (payment == null) {
             return null; // oder werfen Sie eine Ausnahme, wenn keine Zahlung mit der gegebenen ID gefunden wird.
         }
 
@@ -51,6 +56,7 @@ public class PaymentServices {
         entityManager.merge(payment);
         return convertToDTO(payment);
     }
+
     public PaymentDTO convertToDTO(Payment payment) {
         PaymentDTO paymentDTO = new PaymentDTO();
         paymentDTO.setId(payment.getPaymentId());
@@ -59,6 +65,26 @@ public class PaymentServices {
         paymentDTO.setRental(new RentalHref("/rentals/" + payment.getRentalId()));
         paymentDTO.setCustomer(new CustomerHref("/customers/" + payment.getCustomer().getCustomer_id()));
         return paymentDTO;
+    }
+
+
+    @Transactional
+    public Response deletePayment(int id) {
+        Payment payment = entityManager.find(Payment.class, id);
+        if (payment == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Payment not found.").build();
+        }
+
+        // Aktualisieren der Beziehung auf der Customer-Seite
+        Customer customer = payment.getCustomer();
+        customer.getPayments().remove(payment);
+        entityManager.merge(customer);
+
+        // Löschen der Payment-Entität
+        entityManager.remove(payment);
+        entityManager.flush();
+
+        return Response.noContent().build();
     }
 
 }
