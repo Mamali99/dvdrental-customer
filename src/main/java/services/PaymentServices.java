@@ -59,7 +59,7 @@ public class PaymentServices {
 
     public PaymentDTO convertToDTO(Payment payment) {
         PaymentDTO paymentDTO = new PaymentDTO();
-        paymentDTO.setId(payment.getPaymentId());
+        paymentDTO.setId(0);
         paymentDTO.setAmount(payment.getAmount().doubleValue());
         paymentDTO.setStaff(new StaffHref("/staff/" + payment.getStaffId()));
         paymentDTO.setRental(new RentalHref("/rentals/" + payment.getRentalId()));
