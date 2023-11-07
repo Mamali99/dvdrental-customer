@@ -1,14 +1,16 @@
 package services;
 
+import dto.PaymentDTO;
 import entities.*;
 import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.Response;
-
-import java.util.List;
+import utils.CustomerHref;
+import utils.PaymentValue;
+import utils.RentalHref;
+import utils.StaffHref;
 
 public class PaymentServices {
 

@@ -1,11 +1,10 @@
 package services;
 
 import entities.Address;
-import entities.AddressDTO;
+import dto.AddressDTO;
 import entities.City;
 import entities.Country;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;

@@ -1,5 +1,7 @@
-package entities;
+package dto;
 
+import utils.AddressHref;
+import utils.StoreHref;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.Date;

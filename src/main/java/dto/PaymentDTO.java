@@ -1,5 +1,8 @@
-package entities;
+package dto;
 
+import utils.CustomerHref;
+import utils.RentalHref;
+import utils.StaffHref;
 import lombok.Getter;
 import lombok.Setter;
 

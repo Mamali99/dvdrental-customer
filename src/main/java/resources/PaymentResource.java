@@ -1,15 +1,12 @@
 package resources;
 
-import entities.Payment;
-import entities.PaymentDTO;
-import entities.PaymentValue;
+import dto.PaymentDTO;
+import utils.PaymentValue;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import services.PaymentServices;
-
-import java.util.List;
 
 @Path("/payments")
 public class PaymentResource {

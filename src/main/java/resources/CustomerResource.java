@@ -1,8 +1,7 @@
 package resources;
 
-import entities.Customer;
-import entities.CustomerDTO;
-import entities.PaymentDTO;
+import dto.CustomerDTO;
+import dto.PaymentDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

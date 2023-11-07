@@ -1,7 +1,6 @@
 package resources;
 
-import entities.Address;
-import entities.AddressDTO;
+import dto.AddressDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

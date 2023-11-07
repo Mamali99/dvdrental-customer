@@ -1,17 +1,16 @@
-package entities;
+package utils;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class CustomerHref {
+public class StaffHref {
 
     String href;
 
-    public CustomerHref(){}
-
-    public CustomerHref(String s) {
+    public StaffHref(){}
+    public StaffHref(String s) {
         this.href = s;
     }
 }
