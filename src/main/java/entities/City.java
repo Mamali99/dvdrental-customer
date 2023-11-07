@@ -31,7 +31,8 @@ public class City {
     @Column(name = "last_update", nullable = false)
     private Timestamp last_update = Timestamp.valueOf(LocalDateTime.now());
 
-    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
+    //@OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "city")
     @JsonbTransient
     private List<Address> addresses;
 

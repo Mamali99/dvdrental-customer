@@ -29,7 +29,8 @@ public class Customer {
     @JsonbTransient
     private Address address;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    //@OneToMany(mappedBy = "customer", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     @JsonbTransient
     private List<Payment> payments;
 
