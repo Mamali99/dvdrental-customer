@@ -8,6 +8,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
+import jakarta.ws.rs.NotFoundException;
 import jakarta.ws.rs.core.Response;
 
 import java.util.ArrayList;
@@ -26,6 +27,10 @@ public class AddressServices {
         query.setMaxResults(pageSize);
 
         List<Address> addresses = query.getResultList();
+
+        if(addresses == null ){
+            return null;
+        }
 
         List<AddressDTO> addressDTOs = new ArrayList<>();
         for (Address address : addresses) {
@@ -62,15 +67,28 @@ public class AddressServices {
 
 
         City city = findCity(addressDTO.getCity(), addressDTO.getCountry());
+       /*
         if(city == null) {
-            throw new IllegalStateException("City does not exist");
+            return null;
+        }
+
+        */
+        if(city == null) {
+            throw new NotFoundException("City or Country not found");
         }
         address.setCity(city);
 
+
         entityManager.persist(address);
+        entityManager.flush(); // Sicherstellen, dass die ID generiert wird
+
+
+        addressDTO.setId(address.getAddress_id());
+
 
         return addressDTO;
     }
+
 
 
     public City findCity(String cityName, String countryName) {
