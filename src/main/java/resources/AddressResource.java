@@ -16,8 +16,8 @@ public class AddressResource {
     AddressServices addressServices;
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAddresses(@QueryParam("page") int page) {
-        List<AddressDTO> addresses = addressServices.getFirst100Addresses();
+    public Response getAddresses(@QueryParam("page") @DefaultValue("1") int page) {
+        List<AddressDTO> addresses = addressServices.getAddressesByPage(page);
         return Response.ok(addresses).build();
     }
 

@@ -18,9 +18,13 @@ public class AddressServices {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<AddressDTO> getFirst100Addresses() {
+    public List<AddressDTO> getAddressesByPage(int page) {
+        int pageSize = 100; // Anzahl der Ergebnisse pro Seite
+
         TypedQuery<Address> query = entityManager.createQuery("SELECT a FROM Address a", Address.class);
-        query.setMaxResults(100);
+        query.setFirstResult((page - 1) * pageSize);
+        query.setMaxResults(pageSize);
+
         List<Address> addresses = query.getResultList();
 
         List<AddressDTO> addressDTOs = new ArrayList<>();
