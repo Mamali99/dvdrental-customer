@@ -58,6 +58,9 @@ public class AddressResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAddressById(@PathParam("id") int id) {
         AddressDTO addressDTO = addressServices.getAddressById(id);
+        if(addressDTO == null){
+            return Response.status(Response.Status.NOT_FOUND).entity("Address not found for address-id: "+id).build();
+        }
         return Response.ok(addressDTO).build();
     }
 
