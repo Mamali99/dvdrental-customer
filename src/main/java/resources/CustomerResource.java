@@ -52,6 +52,9 @@ public class CustomerResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomerById(@PathParam("id") int id) {
         CustomerDTO customerDTO = customerServices.getCustomerById(id);
+        if(customerDTO==null){
+            return Response.status(Response.Status.NOT_FOUND).entity("Customer not found").build();
+        }
         return Response.ok(customerDTO).build();
     }
 
