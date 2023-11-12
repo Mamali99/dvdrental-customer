@@ -62,7 +62,12 @@ public class CustomerResource {
     @Path("/{id}/payments")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPaymentsByCustomerId(@PathParam("id") int id) {
+        if (!customerServices.doesCustomerExist(id)) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Customer not found").build();
+        }
+
         List<PaymentDTO> paymentDTOS = customerServices.getPaymentsByCustomerId(id);
         return Response.ok(paymentDTOS).build();
     }
+
 }

@@ -68,6 +68,11 @@ public class CustomerServices {
         return convertToDTO(customer);
     }
 
+    public boolean doesCustomerExist(int id) {
+        Customer customer = entityManager.find(Customer.class, id);
+        return customer != null;
+    }
+
 
     public List<PaymentDTO> getPaymentsByCustomerId(int id) {
         TypedQuery<Payment> query = entityManager.createQuery("SELECT p FROM Payment p WHERE p.customer.customer_id = :customerId", Payment.class);
