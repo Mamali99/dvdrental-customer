@@ -23,11 +23,18 @@ public class CustomerServices {
         return entityManager;
     }
 
-    public List<CustomerDTO> getFirst20Customers() {
+    public List<CustomerDTO> getCustomersByPage(int page) {
+        int pageSize = 20; // Anzahl der Ergebnisse pro Seite
+
         TypedQuery<Customer> query = entityManager.createQuery("SELECT c FROM Customer c", Customer.class);
-        query.setMaxResults(20);
+        query.setFirstResult((page - 1) * pageSize);
+        query.setMaxResults(pageSize);
 
         List<Customer> customers = query.getResultList();
+
+        if(customers == null){
+            return null;
+        }
         List<CustomerDTO> customerDTOs = new ArrayList<>();
 
         for (Customer customer : customers) {
@@ -41,15 +48,12 @@ public class CustomerServices {
             dto.setFirstName(customer.getFirst_name());
             dto.setLastName(customer.getLast_name());
 
-            // Assuming you have a way to fetch the href for a store and address
-            // For this example, I'm just placing a placeholder value
-            StoreHref storeHref = new StoreHref();
-            storeHref.setHref("path_to_store/" + customer.getStore_id());
-            dto.setStore(storeHref);
 
+            StoreHref storeHref = new StoreHref();
+            storeHref.setHref("http://localhost:8082/stores/" + customer.getStore_id());
+            dto.setStore(storeHref);
             AddressHref addressHref = new AddressHref();
-            // Assuming Address has a method like getId()
-            addressHref.setHref("path_to_address/" + customer.getAddress().getAddress_id());
+            addressHref.setHref("http://localhost:8083/addresses/" + customer.getAddress().getAddress_id());
             dto.setAddress(addressHref);
 
             customerDTOs.add(dto);

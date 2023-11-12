@@ -36,6 +36,7 @@ public class Customer {
 
     private Boolean activebool;
     private Date create_date;
+
     private Timestamp last_update = Timestamp.valueOf(LocalDateTime.now());
     private Integer active;
 }

@@ -13,14 +13,18 @@ import java.util.List;
 @Path("/customers")
 public class CustomerResource {
     @Inject
-    CustomerServices customerServices;
+    private CustomerServices customerServices;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCustomers(@QueryParam("page") int page) {
-        List<CustomerDTO> customers = customerServices.getFirst20Customers();
+    public Response getCustomers(@QueryParam("page") @DefaultValue("1") int page) {
+        List<CustomerDTO> customers = customerServices.getCustomersByPage(page);
+        if(customers == null || customers.isEmpty()){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
         return Response.ok(customers).build();
     }
+
 
     //Hier muss noch von Store-Microservice kontrollieren, ob Store-id gibt
     @POST
