@@ -8,6 +8,8 @@ import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import jakarta.ws.rs.WebApplicationException;
+import jakarta.ws.rs.core.Response;
 import utils.*;
 
 import java.util.ArrayList;
@@ -46,6 +48,9 @@ public class CustomerServices {
 
     public CustomerDTO createCustomer(CustomerDTO customerDTO) {
         Customer customer = convertFromDTO(customerDTO);
+        if (customer.getAddress() == null) {
+            throw new WebApplicationException("Adresse nicht gefunden in der Datenbank.", Response.Status.BAD_REQUEST);
+        }
         entityManager.persist(customer);
         return convertToDTO(customer);
     }
