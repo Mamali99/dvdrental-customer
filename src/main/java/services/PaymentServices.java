@@ -21,16 +21,14 @@ public class PaymentServices {
     @Inject
     private CustomerServices customerServices;
 
-    public EntityManager getEntityManager() {
-        return entityManager;
-    }
 
     public PaymentDTO getPaymentById(int id) {
         Payment payment = entityManager.find(Payment.class, id);
 
         if (payment == null) {
-            return null; // oder werfen Sie eine Ausnahme, wenn keine Zahlung mit der gegebenen ID gefunden wird.
+            return null;
         }
+        /*
 
         PaymentDTO paymentDTO = new PaymentDTO();
         paymentDTO.setId(payment.getPaymentId());
@@ -41,7 +39,9 @@ public class PaymentServices {
         paymentDTO.setStaff(new StaffHref("http://localhost:8082/staff/" + payment.getStaffId()));
         paymentDTO.setRental(new RentalHref("http://localhost:8082/rentals/" + payment.getRentalId()));
 
-        return paymentDTO;
+
+         */
+        return convertToDTO(payment);
     }
 
     @Transactional
@@ -61,12 +61,16 @@ public class PaymentServices {
 
     public PaymentDTO convertToDTO(Payment payment) {
         PaymentDTO paymentDTO = new PaymentDTO();
-        paymentDTO.setId(0);
+        paymentDTO.setId(payment.getPaymentId());
         paymentDTO.setAmount(payment.getAmount().doubleValue());
         paymentDTO.setStaff(new StaffHref("http://localhost:8082/staff/" + payment.getStaffId()));
         paymentDTO.setRental(new RentalHref("http://localhost:8082/rentals/" + payment.getRentalId()));
         paymentDTO.setCustomer(new CustomerHref("http://localhost:8083/customers/" + payment.getCustomer().getCustomer_id()));
         return paymentDTO;
+    }
+
+    public Payment convertFromDTO(PaymentDTO dto){
+        return null;
     }
 
 

@@ -18,6 +18,7 @@ public class PaymentResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createPayment(PaymentValue payment) {
        PaymentDTO p = paymentServices.createPayment(payment);
+
         return Response.ok(p).build();
     }
 
@@ -26,6 +27,9 @@ public class PaymentResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPaymentById(@PathParam("id") int id) {
         PaymentDTO payment = paymentServices.getPaymentById(id);
+        if(payment == null){
+            return Response.status(Response.Status.NOT_FOUND).entity("Payment not found").build();
+        }
         return Response.ok(payment).build();
     }
 
