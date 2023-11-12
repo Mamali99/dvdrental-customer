@@ -37,9 +37,9 @@ public class PaymentServices {
         paymentDTO.setAmount(payment.getAmount().doubleValue());
 
         // Setzen Sie die Hrefs basierend auf Ihren Endpunkt-URLs
-        paymentDTO.setCustomer(new CustomerHref("path_to_customer/" + payment.getCustomer().getCustomer_id()));
-        paymentDTO.setStaff(new StaffHref("path_to_staff/" + payment.getStaffId()));
-        paymentDTO.setRental(new RentalHref("path_to_rental/" + payment.getRentalId()));
+        paymentDTO.setCustomer(new CustomerHref("http://localhost:8083/customers/" + payment.getCustomer().getCustomer_id()));
+        paymentDTO.setStaff(new StaffHref("http://localhost:8082/staff/" + payment.getStaffId()));
+        paymentDTO.setRental(new RentalHref("http://localhost:8082/rentals/" + payment.getRentalId()));
 
         return paymentDTO;
     }
@@ -63,9 +63,9 @@ public class PaymentServices {
         PaymentDTO paymentDTO = new PaymentDTO();
         paymentDTO.setId(0);
         paymentDTO.setAmount(payment.getAmount().doubleValue());
-        paymentDTO.setStaff(new StaffHref("/staff/" + payment.getStaffId()));
-        paymentDTO.setRental(new RentalHref("/rentals/" + payment.getRentalId()));
-        paymentDTO.setCustomer(new CustomerHref("/customers/" + payment.getCustomer().getCustomer_id()));
+        paymentDTO.setStaff(new StaffHref("http://localhost:8082/staff/" + payment.getStaffId()));
+        paymentDTO.setRental(new RentalHref("http://localhost:8082/rentals/" + payment.getRentalId()));
+        paymentDTO.setCustomer(new CustomerHref("http://localhost:8083/customers/" + payment.getCustomer().getCustomer_id()));
         return paymentDTO;
     }
 
