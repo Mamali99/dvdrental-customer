@@ -34,22 +34,7 @@ public class AddressServices {
 
         List<AddressDTO> addressDTOs = new ArrayList<>();
         for (Address address : addresses) {
-            AddressDTO dto = new AddressDTO();
-            dto.setId(address.getAddress_id());
-            dto.setAddress(address.getAddress());
-            dto.setAddress2(address.getAddress2());
-            dto.setDistrict(address.getDistrict());
-            dto.setPhone(address.getPhone());
-            dto.setPostalCode(address.getPostal_code());
-
-            // Set city and country from related entities
-            if(address.getCity() != null) {
-                dto.setCity(address.getCity().getCity());
-                if(address.getCity().getCountry() != null) {
-                    dto.setCountry(address.getCity().getCountry().getCountry());
-                }
-            }
-
+            AddressDTO dto = convertToDTO(address);
             addressDTOs.add(dto);
         }
 
@@ -58,34 +43,15 @@ public class AddressServices {
 
     @Transactional
     public AddressDTO createAddress(AddressDTO addressDTO) {
-        Address address = new Address();
-        address.setAddress(addressDTO.getAddress());
-        address.setAddress2(addressDTO.getAddress2());
-        address.setDistrict(addressDTO.getDistrict());
-        address.setPhone(addressDTO.getPhone());
-        address.setPostal_code(addressDTO.getPostalCode());
-
-
+        Address address = convertFromDTO(addressDTO);
         City city = findCity(addressDTO.getCity(), addressDTO.getCountry());
-       /*
-        if(city == null) {
-            return null;
-        }
-
-        */
         if(city == null) {
             throw new NotFoundException("City or Country not found");
         }
         address.setCity(city);
-
-
         entityManager.persist(address);
         entityManager.flush(); // Sicherstellen, dass die ID generiert wird
-
-
         addressDTO.setId(address.getAddress_id());
-
-
         return addressDTO;
     }
 
@@ -134,24 +100,9 @@ public class AddressServices {
             return null;
         }
 
-        AddressDTO dto = new AddressDTO();
-        dto.setId(address.getAddress_id());
-        dto.setAddress(address.getAddress());
-        dto.setAddress2(address.getAddress2());
-        dto.setDistrict(address.getDistrict());
-        dto.setPhone(address.getPhone());
-        dto.setPostalCode(address.getPostal_code());
-
-        // Set city and country from related entities
-        if(address.getCity() != null) {
-            dto.setCity(address.getCity().getCity());
-            if(address.getCity().getCountry() != null) {
-                dto.setCountry(address.getCity().getCountry().getCountry());
-            }
-        }
-
-        return dto;
+        return convertToDTO(address);
     }
+
 
     @Transactional
     public Response deleteAddress(int id) {
@@ -183,5 +134,42 @@ public class AddressServices {
 
         return Response.status(Response.Status.NO_CONTENT).build();
     }
+
+    private AddressDTO convertToDTO(Address address) {
+        AddressDTO dto = new AddressDTO();
+        dto.setId(address.getAddress_id());
+        dto.setAddress(address.getAddress());
+        dto.setAddress2(address.getAddress2());
+        dto.setDistrict(address.getDistrict());
+        dto.setPhone(address.getPhone());
+        dto.setPostalCode(address.getPostal_code());
+
+        if(address.getCity() != null) {
+            dto.setCity(address.getCity().getCity());
+            if(address.getCity().getCountry() != null) {
+                dto.setCountry(address.getCity().getCountry().getCountry());
+            }
+        }
+        return dto;
+    }
+
+    private Address convertFromDTO(AddressDTO dto) {
+        Address address = new Address();
+        address.setAddress(dto.getAddress());
+        address.setAddress2(dto.getAddress2());
+        address.setDistrict(dto.getDistrict());
+        address.setPhone(dto.getPhone());
+        address.setPostal_code(dto.getPostalCode());
+
+        if(dto.getCity() != null) {
+            City city = findCity(dto.getCity(), dto.getCountry());
+            if(city != null) {
+                address.setCity(city);
+            }
+        }
+        return address;
+    }
+
+
 
 }
