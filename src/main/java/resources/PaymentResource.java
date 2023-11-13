@@ -12,14 +12,23 @@ import services.PaymentServices;
 public class PaymentResource {
 
     @Inject
-    PaymentServices paymentServices;
+    private PaymentServices paymentServices;
+    /*
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createPayment(PaymentValue payment) {
-       PaymentDTO p = paymentServices.createPayment(payment);
+       PaymentDTO paymentDTO = paymentServices.createPayment(payment);
 
-        return Response.ok(p).build();
+        return Response.ok(paymentDTO).build();
+    }
+
+     */
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response createPayment(PaymentValue payment) {
+        return paymentServices.createPayment(payment);
     }
 
     @GET

@@ -14,7 +14,7 @@ public class PaymentValue {
     private Integer rental;
     private Integer customer;
     private Integer staff;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private Timestamp date;
 
 }
