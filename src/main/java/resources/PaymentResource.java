@@ -46,8 +46,6 @@ public class PaymentResource {
     @DELETE
     @Path("/{id}")
     public Response deletePayment(@PathParam("id") int id) {
-
-        paymentServices.deletePayment(id);
-        return Response.noContent().build();
+        return paymentServices.deletePayment(id);
     }
 }
