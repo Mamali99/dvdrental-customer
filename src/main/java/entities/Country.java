@@ -5,14 +5,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.SequenceGenerator;
-import lombok.Getter;
-import lombok.Setter;
-
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
 @Entity
 public class Country {
 
@@ -25,5 +20,27 @@ public class Country {
 
     private Timestamp last_update = Timestamp.valueOf(LocalDateTime.now());
 
+    public Integer getCountry_id() {
+        return country_id;
+    }
 
+    public void setCountry_id(Integer country_id) {
+        this.country_id = country_id;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public Timestamp getLast_update() {
+        return last_update;
+    }
+
+    public void setLast_update(Timestamp last_update) {
+        this.last_update = last_update;
+    }
 }
