@@ -7,10 +7,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.core.Response;
-import utils.CustomerHref;
-import utils.PaymentValue;
-import utils.RentalHref;
-import utils.StaffHref;
+import utils.*;
 
 import java.math.BigDecimal;
 
@@ -22,6 +19,13 @@ public class PaymentServices {
 
     @Inject
     private CustomerServices customerServices;
+
+    @Inject
+    private StoreServiceClient storeServiceClient;
+    @Inject
+    private RentalServiceClient rentalServiceClient;
+
+
 
 
     public PaymentDTO getPaymentById(int id) {
@@ -48,22 +52,20 @@ public class PaymentServices {
     }
 
      */
+
+    // Hier muss noch 400 Only allowed: amount (decimal), customer (int), rental (int), staff (int), date (yyyy-MM-dd HH:mm) implementieren
     @Transactional
     public Response createPayment(PaymentValue paymentValue) {
         // Validierung der Eingabedaten
         if (paymentValue == null || !isValidPaymentValue(paymentValue)) {
-            return Response.status(Response.Status.BAD_REQUEST).entity("Ungültige Eingabedaten").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Some involved entity does not exist. See message body.").build();
         }
-
-        /*
         // Überprüfen der Existenz von Customer, Staff und Rental
-        if (!doesEntityExist(Customer.class, paymentValue.getCustomer()) ||
-                !doesEntityExist(Staff.class, paymentValue.getStaff()) ||
-                !doesEntityExist(Rental.class, paymentValue.getRental())) {
-            return Response.status(Response.Status.NOT_FOUND).entity("Beteiligte Entität existiert nicht").build();
+        if (!doesCustomerExist(paymentValue.getCustomer()) ||
+                !storeServiceClient.checkStoreExists(paymentValue.getStaff()) ||
+                !rentalServiceClient.checkRentalExists(paymentValue.getRental())) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Some involved entity does not exist. See message body.").build();
         }
-
-         */
 
         Payment payment = new Payment();
         payment.setAmount(paymentValue.getAmount());
@@ -110,9 +112,8 @@ public class PaymentServices {
 
 
 
-    //Die Methode wird später Anfrage an andere Microservices schicken und überprüfen, ob ein Entity mit dem Id=entityId existiert
-    private boolean doesEntityExist(Class<?> entityClass, int entityId) {
-        return entityManager.find(entityClass, entityId) != null;
+    private boolean doesCustomerExist(int customerId) {
+        return customerServices.doesCustomerExist(customerId);
     }
 
 
