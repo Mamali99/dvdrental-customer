@@ -1,10 +1,5 @@
 package utils;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Setter
-@Getter
 public class RentalHref {
 
     String href;
@@ -13,5 +8,13 @@ public class RentalHref {
 
     public RentalHref(String s) {
         this.href = s;
+    }
+
+    public String getHref() {
+        return href;
+    }
+
+    public void setHref(String href) {
+        this.href = href;
     }
 }
