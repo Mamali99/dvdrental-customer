@@ -40,7 +40,7 @@ public class AddressResource {
             URI addressUri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(newAddress.getId())).build();
             return Response.created(addressUri).entity(newAddress).build();
         } catch (Exception e) {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return Response.status(Response.Status.NOT_FOUND).entity("Country and/or City do not exist.").build();
         }
 
     }

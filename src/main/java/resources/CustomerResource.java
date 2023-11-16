@@ -31,6 +31,15 @@ public class CustomerResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response createCustomer(CustomerDTO customerDTO) {
+        /*
+        try {
+            CustomerDTO c = customerServices.createCustomer(customerDTO);
+            return Response.status(Response.Status.CREATED).entity(c).build();
+        } catch (WebApplicationException e) {
+            return e.getResponse();
+        }
+
+         */
         try {
             CustomerDTO c = customerServices.createCustomer(customerDTO);
             return Response.status(Response.Status.CREATED).entity(c).build();

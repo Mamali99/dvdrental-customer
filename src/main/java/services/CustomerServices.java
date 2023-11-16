@@ -4,6 +4,7 @@ import dto.CustomerDTO;
 import dto.PaymentDTO;
 import entities.*;
 import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -20,6 +21,9 @@ public class CustomerServices {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Inject
+    private StoreServiceClient storeServiceClient;
 
     public EntityManager getEntityManager(){
         return entityManager;
@@ -47,12 +51,19 @@ public class CustomerServices {
     }
 
     public CustomerDTO createCustomer(CustomerDTO customerDTO) {
+        // Konvertieren Sie das DTO in eine Entity
         Customer customer = convertFromDTO(customerDTO);
-        if (customer.getAddress() == null) {
-            throw new WebApplicationException("Adresse nicht gefunden in der Datenbank.", Response.Status.BAD_REQUEST);
-        }
+
+        // Persistieren Sie die Customer-Entity
         entityManager.persist(customer);
+
+        // Konvertieren Sie die Entity zurück in ein DTO
         return convertToDTO(customer);
+    }
+
+    private Integer extractIdFromHref(String href) {
+        String[] parts = href.split("/");
+        return Integer.parseInt(parts[parts.length - 1]);
     }
 
     public Integer getCount() {
@@ -123,19 +134,20 @@ public class CustomerServices {
         customer.setFirst_name(dto.getFirstName());
         customer.setLast_name(dto.getLastName());
 
-        String storeHref = dto.getStore().getHref();
-        String[] storeHrefParts = storeHref.split("/");
-        if (storeHrefParts.length > 0) {
-            customer.setStore_id(Integer.parseInt(storeHrefParts[storeHrefParts.length - 1]));
+        // Extrahieren und überprüfen der Store ID
+        Integer storeId = extractIdFromHref(dto.getStore().getHref());
+        if (!storeServiceClient.checkStoreExists(storeId)) {
+            throw new WebApplicationException("Store nicht gefunden.", Response.Status.BAD_REQUEST);
         }
+        customer.setStore_id(storeId);
 
-        String addressHref = dto.getAddress().getHref();
-        String[] addressHrefParts = addressHref.split("/");
-        if (addressHrefParts.length > 0) {
-            Integer addressId = Integer.parseInt(addressHrefParts[addressHrefParts.length - 1]);
-            Address address = entityManager.find(Address.class, addressId);
-            customer.setAddress(address);
+        // Extrahieren und überprüfen der Address ID
+        Integer addressId = extractIdFromHref(dto.getAddress().getHref());
+        Address address = entityManager.find(Address.class, addressId);
+        if (address == null) {
+            throw new WebApplicationException("Adresse nicht gefunden.", Response.Status.BAD_REQUEST);
         }
+        customer.setAddress(address);
 
         return customer;
     }
