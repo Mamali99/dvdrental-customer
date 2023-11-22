@@ -1,6 +1,5 @@
 package entities;
 
-import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -22,11 +21,9 @@ public class Customer {
     private String email;
     @ManyToOne
     @JoinColumn(name="address_id")
-    @JsonbTransient
     private Address address;
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
-    @JsonbTransient
     private List<Payment> payments;
 
     private Boolean activebool;

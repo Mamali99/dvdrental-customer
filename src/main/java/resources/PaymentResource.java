@@ -13,17 +13,7 @@ public class PaymentResource {
 
     @Inject
     private PaymentServices paymentServices;
-    /*
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response createPayment(PaymentValue payment) {
-       PaymentDTO paymentDTO = paymentServices.createPayment(payment);
 
-        return Response.ok(paymentDTO).build();
-    }
-
-     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

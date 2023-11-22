@@ -20,9 +20,6 @@ public class StoreServiceClient {
     public boolean checkStoreExists(int storeId) {
         WebTarget target = client.target(STORE_SERVICE_URL + storeId);
 
-        // Ausgabe der angeforderten URL
-        System.out.println("Angeforderte URL: " + target.getUri().toString());
-
         Response response = target.request(MediaType.APPLICATION_JSON).get();
         return response.getStatus() == Response.Status.OK.getStatusCode();
     }

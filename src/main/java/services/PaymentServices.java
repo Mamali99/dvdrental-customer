@@ -36,24 +36,8 @@ public class PaymentServices {
         return convertToDTO(payment);
     }
 
-    /*
-    @Transactional
-    public PaymentDTO createPayment(PaymentValue paymentValue) {
 
-        Payment payment = new Payment();
-        payment.setAmount(paymentValue.getAmount());
-        payment.setRentalId(paymentValue.getRental());
-        Customer customer = customerServices.getEntityManager().find(Customer.class, paymentValue.getCustomer());
-        payment.setCustomer(customer);
-        payment.setStaffId(paymentValue.getStaff());
-        payment.setPaymentDate(paymentValue.getDate());
-        entityManager.merge(payment);
-        return convertToDTO(payment);
-    }
 
-     */
-
-    // Hier muss noch 400 Only allowed: amount (decimal), customer (int), rental (int), staff (int), date (yyyy-MM-dd HH:mm) implementieren
     @Transactional
     public Response createPayment(PaymentValue paymentValue) {
         // Validierung der Eingabedaten
@@ -101,7 +85,6 @@ public class PaymentServices {
             return false;
         }
 
-        // Datum: Die @JsonFormat-Annotation kümmert sich um das Format, also nur auf null prüfen
         if (paymentValue.getDate() == null) {
             return false;
         }

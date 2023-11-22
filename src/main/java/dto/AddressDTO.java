@@ -1,8 +1,7 @@
 package dto;
 
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-@JsonPropertyOrder({ "id", "address", "address2", "district", "phone", "postalCode", "city", "country" })
+
 public class AddressDTO {
 
     private int id;

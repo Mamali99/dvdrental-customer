@@ -1,6 +1,5 @@
 package entities;
 
-import jakarta.json.bind.annotation.JsonbTransient;
 import jakarta.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -20,15 +19,12 @@ public class City {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "country_id", nullable = false)
-    @JsonbTransient
     private Country country;
 
     @Column(name = "last_update", nullable = false)
     private Timestamp last_update = Timestamp.valueOf(LocalDateTime.now());
 
-    //@OneToMany(mappedBy = "city", cascade = CascadeType.ALL)
     @OneToMany(mappedBy = "city")
-    @JsonbTransient
     private List<Address> addresses;
 
     public Integer getCity_id() {

@@ -20,9 +20,6 @@ public class RentalServiceClient {
     public boolean checkRentalExists(int rentalId) {
         WebTarget target = client.target(RENTAL_SERVICE_URL + rentalId);
 
-        // Ausgabe der angeforderten URL
-        System.out.println("Angeforderte URL: " + target.getUri().toString());
-
         Response response = target.request(MediaType.APPLICATION_JSON).get();
         return response.getStatus() == Response.Status.OK.getStatusCode();
     }

@@ -20,7 +20,7 @@ public class AddressServices {
     private EntityManager entityManager;
 
     public List<AddressDTO> getAddressesByPage(int page) {
-        int pageSize = 100; // Anzahl der Ergebnisse pro Seite
+        int pageSize = 100;
 
         TypedQuery<Address> query = entityManager.createQuery("SELECT a FROM Address a", Address.class);
         query.setFirstResult((page - 1) * pageSize);

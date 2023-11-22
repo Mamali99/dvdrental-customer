@@ -30,7 +30,7 @@ public class CustomerServices {
     }
 
     public List<CustomerDTO> getCustomersByPage(int page) {
-        int pageSize = 20; // Anzahl der Ergebnisse pro Seite
+        int pageSize = 20;
 
         TypedQuery<Customer> query = entityManager.createQuery("SELECT c FROM Customer c", Customer.class);
         query.setFirstResult((page - 1) * pageSize);
@@ -51,13 +51,8 @@ public class CustomerServices {
     }
 
     public CustomerDTO createCustomer(CustomerDTO customerDTO) {
-        // Konvertieren Sie das DTO in eine Entity
         Customer customer = convertFromDTO(customerDTO);
-
-        // Persistieren Sie die Customer-Entity
         entityManager.persist(customer);
-
-        // Konvertieren Sie die Entity zurück in ein DTO
         return convertToDTO(customer);
     }
 
