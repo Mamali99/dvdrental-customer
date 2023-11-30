@@ -5,23 +5,17 @@
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
     <persistence-unit name="my-persistence-unit" transaction-type="JTA">
 
-        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-
-        <!-- Verwenden Sie die Datasource, die Sie in Wildfly erstellt haben -->
-        <jta-data-source>java:jboss/datasources/PostgresDS</jta-data-source>
-
-
-        <class>entities.Customer</class>
-        <class>entities.Country</class>
-        <class>entities.Address</class>
-        <class>entities.City</class>
-        <class>entities.Payment</class>
 
         <properties>
-            <!-- Hibernate-spezifische Eigenschaften, falls benötigt -->
+
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
             <property name="hibernate.show_sql" value="true"/>
-            <!-- Weitere Eigenschaften... -->
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:54323/dvdrentalcustomer"/>
+            <property name="javax.persistence.jdbc.user" value="postgres"/>
+            <property name="javax.persistence.jdbc.password" value="customer"/>
+
         </properties>
     </persistence-unit>
 </persistence>

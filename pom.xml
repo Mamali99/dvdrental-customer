@@ -3,11 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.pdbm</groupId>
-    <artifactId>starter</artifactId>
+    <artifactId>customer-app</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
-    <name>Starter</name>
-    <description>Einfaches Projekt für den Start mit bootable WildFly</description>
+    <name>Customer-app</name>
+    <description>Das Projekt für Customer-Microservice</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -42,7 +42,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -50,7 +50,7 @@
         </dependency>
 
 
-        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
@@ -62,7 +62,7 @@
             <artifactId>jakarta.persistence-api</artifactId>
             <version>3.1.0</version>
         </dependency>
-
+-->
 
 
 
@@ -70,6 +70,7 @@
 
     <build>
         <finalName>ROOT</finalName>
+        <!-- <finalName>${project.artifactId}</finalName>-->
         <plugins>
             <plugin>
                 <groupId>org.wildfly.plugins</groupId>
@@ -92,6 +93,7 @@
                         <layer>jaxrs</layer>
                         <layer>bean-validation</layer>
                         <layer>management</layer>
+                        <layer>postgresql-datasource</layer>
                     </layers>
                     <excluded-layers>
                         <layer>deployment-scanner</layer>
