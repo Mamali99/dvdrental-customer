@@ -1,5 +1,5 @@
 
-FROM eclipse-temurin:20-jre
+FROM docker.io/library/eclipse-temurin:20-jre
 
 
 WORKDIR /usr/customer-app
@@ -8,7 +8,7 @@ WORKDIR /usr/customer-app
 ENV POSTGRESQL_USER=postgres
 ENV POSTGRESQL_PASSWORD=customer
 
-COPY ./target/ROOT-bootable.jar /usr/customer-app/customer-app-bootable.jar
+COPY ./target/customer-app-bootable.jar /usr/customer-app/customer-app-bootable.jar
 
 
 EXPOSE 8083
