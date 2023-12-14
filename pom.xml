@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>de.pdbm</groupId>
-    <artifactId>customer-app</artifactId>
+    <artifactId>dvdrental-customer</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
     <name>Customer-app</name>
@@ -70,7 +70,6 @@
                         <layer>jaxrs</layer>
                         <layer>bean-validation</layer>
                         <layer>management</layer>
-                        <layer>postgresql-datasource</layer>
                     </layers>
                     <excluded-layers>
                         <layer>deployment-scanner</layer>
