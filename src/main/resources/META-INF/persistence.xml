@@ -13,9 +13,12 @@
             <property name="hibernate.format_sql" value="true"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:54323/dvdrentalcustomer"/>
+            <!--<property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:54323/dvdrentalcustomer"/>
             <property name="jakarta.persistence.jdbc.user" value="postgres"/>
-            <property name="jakarta.persistence.jdbc.password" value="trust"/>
+            <property name="jakarta.persistence.jdbc.password" value="trust"/>-->
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://${env.POSTGRES_HOST}:${env.POSTGRES_PORT}/${env.POSTGRES_DB}"/>
+            <property name="jakarta.persistence.jdbc.user" value="${env.POSTGRES_USER}"/>
+            <property name="jakarta.persistence.jdbc.password" value="${env.POSTGRES_PASSWORD}"/>
 
         </properties>
     </persistence-unit>
