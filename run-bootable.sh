@@ -2,7 +2,7 @@
 
 # Umgebungsvariablen definieren
 export POSTGRES_HOST=localhost
-export POSTGRES_PORT=54323 # muss alle 5432 sein
+export POSTGRES_PORT=5432
 export POSTGRES_DB=dvdrentalcustomer
 export POSTGRES_USER=postgres
 export POSTGRES_PASSWORD=trust
