@@ -38,7 +38,7 @@ public class AddressResource {
         try {
             AddressDTO newAddress = addressServices.createAddress(addressDTO);
             URI addressUri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(newAddress.getId())).build();
-            return Response.created(addressUri).entity(newAddress).build();
+            return Response.created(addressUri).entity("Address created.").build();
         } catch (Exception e) {
             return Response.status(Response.Status.NOT_FOUND).entity("Country and/or City do not exist.").build();
         }
