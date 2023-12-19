@@ -9,6 +9,7 @@ import jakarta.inject.Named;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.WebApplicationException;
 import jakarta.ws.rs.core.Response;
 import utils.*;
@@ -50,6 +51,7 @@ public class CustomerServices {
         return customerDTOs;
     }
 
+    @Transactional
     public CustomerDTO createCustomer(CustomerDTO customerDTO) {
         Customer customer = convertFromDTO(customerDTO);
         entityManager.persist(customer);
