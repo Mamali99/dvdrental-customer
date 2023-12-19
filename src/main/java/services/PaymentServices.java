@@ -117,7 +117,7 @@ public class PaymentServices {
         entityManager.remove(payment);
         entityManager.flush();
 
-        return Response.noContent().build();
+        return Response.noContent().entity("Payment was deleted for accounting.").build();
     }
 
     public PaymentDTO convertToDTO(Payment payment) {

@@ -2,7 +2,9 @@ package dto;
 
 import utils.AddressHref;
 import utils.StoreHref;
-import java.util.Date;
+
+import java.sql.Date;
+
 
 public class CustomerDTO {
 

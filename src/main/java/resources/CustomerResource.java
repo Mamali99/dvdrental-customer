@@ -4,16 +4,22 @@ import dto.CustomerDTO;
 import dto.PaymentDTO;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 import services.CustomerServices;
 
+import java.net.URI;
 import java.util.List;
 
 @Path("/customers")
 public class CustomerResource {
     @Inject
     private CustomerServices customerServices;
+
+    @Context
+    private UriInfo uriInfo;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -31,10 +37,11 @@ public class CustomerResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response createCustomer(CustomerDTO customerDTO) {
         try {
-            CustomerDTO c = customerServices.createCustomer(customerDTO);
-            return Response.status(Response.Status.CREATED).entity(c).build();
+            CustomerDTO customer = customerServices.createCustomer(customerDTO);
+            URI addressUri = uriInfo.getAbsolutePathBuilder().path(String.valueOf(customer.getId())).build();
+            return Response.created(addressUri).build();
         } catch (WebApplicationException e) {
-            return e.getResponse();
+            return Response.status(Response.Status.NOT_FOUND).entity("store and/or address do not exist.").build();
         }
     }
 
